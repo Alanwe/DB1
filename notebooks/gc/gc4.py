@@ -465,7 +465,7 @@ bestrf = clf.best_estimator_
 import pickle
 m = [word_index,bestsvc,bestrf,bestgp]
 fh = open(b"/tmp/model.pkl","wb")
-pickle.dump(bestrf,fh)
+pickle.dump(m,fh)
 
 # COMMAND ----------
 
