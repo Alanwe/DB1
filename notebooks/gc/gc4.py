@@ -438,19 +438,7 @@ print(r)
 
 # COMMAND ----------
 
-from sklearn import svm, grid_search, datasets
-from spark_sklearn import GridSearchCV
-parameters = {'kernel': ('linear', 'rbf', 'poly', 'rbf', 'sigmoid'), 'C':[1, 5]}
-ST= datetime.now()
-svr = svm.SVC()
-clf = GridSearchCV(sc, svr, param_grid=parameters,scoring='accuracy')
-clf.fit(x_train, y_train)
-ET= datetime.now()
-print("Model Time Taken",(ET - ST))
-print("Best Accuracy",clf.best_score_ )
-print("Best Params",clf.best_score_ )
-print(clf.best_params_ )
-bestrf = clf.best_estimator_
+
 
 # COMMAND ----------
 
@@ -472,4 +460,4 @@ pickle.dump(m,fh)
 from azure.storage.blob import BlockBlobService, PublicAccess
 block_blob_service = BlockBlobService(account_name='spearfishstorage', account_key='WZG1kIIrAmERvlI23eY3z/IKpPvT+pvf4eA9rgRk+TvAzBHIV/qHV0K7NalPgsq6WLo2c8WVFnifHjlhWEbfzQ==')
    
-block_blob_service.create_blob_from_path("models","TaxtClassify1" ,"/tmp/model.pkl")
+block_blob_service.create_blob_from_path("models","TaxtClassify2" ,"/tmp/model.pkl")
