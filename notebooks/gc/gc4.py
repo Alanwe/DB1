@@ -451,7 +451,8 @@ print(r)
 # COMMAND ----------
 
 import pickle
-m = [word_index,bestsvc,bestrf,bestgp]
+#m = [word_index,bestsvc,bestrf,bestgp]
+m = [tokenizer,bestsvc,bestrf,bestgp]
 fh = open(b"/tmp/model.pkl","wb")
 pickle.dump(m,fh)
 
