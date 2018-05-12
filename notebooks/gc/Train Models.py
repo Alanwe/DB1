@@ -358,6 +358,30 @@ print("Time Taken",delta)
 
 # COMMAND ----------
 
+# MAGIC %md Create Ensemble
+
+# COMMAND ----------
+
+from sklearn.ensemble import VotingClassifier
+eclf = VotingClassifier(estimators=[('svc', bestsvc), ('rf', bestrf), ('xgb', bestgp)], voting='hard')
+
+params = {'lr__C': [1.0, 2.0], 'rf__n_estimators': [20, 22],}
+ST= datetime.now()
+
+besten = eclf.fit(x_train, y_train)
+
+#grid = GridSearchCV(sc,estimator=eclf, param_grid=params, scoring='accuracy',verbose=2)
+#clfXGB.fit(x_train, y_train)
+#egrid = grid.fit(x_train, y_train)
+ET= datetime.now()
+#print("Model Time Taken",(ET - ST))
+#print("Best Accuracy",egrid.best_score_ )
+#print("Best Params",egrid.best_score_ )
+#print(egrid.best_params_ )
+#besten = egrid.best_estimator_
+
+# COMMAND ----------
+
 # MAGIC %md ##Save Model
 
 # COMMAND ----------
@@ -368,7 +392,7 @@ print("Time Taken",delta)
 
 import pickle
 #m = [word_index,bestsvc,bestrf,bestgp]
-m = [tokenizer,bestsvc,bestrf,bestgp]
+m = [tokenizer,bestsvc,bestrf,bestgp,besten,"#1001"]
 fh = open(b"/tmp/model.pkl","wb")
 pickle.dump(m,fh)
 
