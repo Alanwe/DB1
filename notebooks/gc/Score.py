@@ -7,15 +7,16 @@
 
 # COMMAND ----------
 
-# Initialize the deployment environment
-def init():
   global alan
   global embedding_matrix
   global word_index
   global bestsvc
   global bestrf
   global bestgp 
+  global besten 
   global tokenizer
+  global code
+  global labels
 
   global inputs_dc, prediction_dc
   from sklearn.externals import joblib
@@ -25,7 +26,8 @@ def init():
 
   # load the model from file into a global object
   global model
-  tokenizer,bestsvc,bestrf,bestgp = joblib.load('model.pkl')
+  tokenizer,bestsvc,bestrf,bestgp,besten,code,labels = joblib.load('model.pkl')
+  print(time.asctime( time.localtime(time.time()) ) + ": " + str(labels))
 
   from keras.preprocessing.text import Tokenizer
   from keras.preprocessing.sequence import pad_sequences
@@ -72,13 +74,13 @@ def init():
   print(time.asctime( time.localtime(time.time()) ) + ": Initialisation completed")
   return(0)
 
+
 # COMMAND ----------
 
 # MAGIC %md ## Run function - Function for Scoring Service
 
 # COMMAND ----------
 
-def run(str1):
     import time
     import json
     print(time.asctime( time.localtime(time.time()) ) + ": Start Run Function")
@@ -95,9 +97,7 @@ def run(str1):
 
     try:
       sequences = tokenizer.texts_to_sequences([str1]) 
-
       data = pad_sequences(sequences, maxlen = MAX_SEQUENCE_LENGHT)
-
       embedded_sequence = np.empty(0)
       for input_word in data:
          embedded_sequence = np.append(embedded_sequence, embedding_matrix[input_word])
@@ -105,16 +105,20 @@ def run(str1):
       rfo=bestrf.predict([embedded_sequence]) 
       svco=bestsvc.predict([embedded_sequence]) 
       gpo=bestgp.predict([embedded_sequence]) 
+      eno=besten.predict([embedded_sequence]) 
 
       print(time.asctime( time.localtime(time.time()) ) + ": Score SVC value " + str(svco))
       print(time.asctime( time.localtime(time.time()) ) + ": Score XGB value " + str(gpo))
       print(time.asctime( time.localtime(time.time()) ) + ": Score RF value " + str(rfo))
+      print(time.asctime( time.localtime(time.time()) ) + ": Score EN value " + str(eno))
 
       print(time.asctime( time.localtime(time.time()) ) + ": End Run Function")
-
-      return(json.dumps({"svc" : str(svco),"xgb" : str(gpo) ,"rf": str(rfo)}))
+      print("SVC:"+labels[svco])
+      print("RF:"+labels[rfo])
+      print("XG:"+labels[gpo])
+      print("EN:"+labels[eno])
+      return(json.dumps({"String" : str1,"Code" : code, "svc" : str(svco),"xgb" : str(gpo) ,"rf": str(rfo),"en": str(eno),"svc_l" : str(labels[svco][0]),"xgb_l" : str(labels[gpo][0]) ,"rf_l": str(labels[rfo][0]),"en_l": str(labels[eno][0])}))
 
     except Exception as e:
         print("Error: {0}",str(e))
         return (str(e))
-  
