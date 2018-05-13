@@ -82,7 +82,7 @@ def init():
 
 # COMMAND ----------
 
-def run():
+def run(str1):
     import time
     import json
     print(time.asctime( time.localtime(time.time()) ) + ": Start Run Function")
