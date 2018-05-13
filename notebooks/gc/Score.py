@@ -7,6 +7,7 @@
 
 # COMMAND ----------
 
+def init():
   global alan
   global embedding_matrix
   global word_index
@@ -81,6 +82,7 @@
 
 # COMMAND ----------
 
+def run():
     import time
     import json
     print(time.asctime( time.localtime(time.time()) ) + ": Start Run Function")
