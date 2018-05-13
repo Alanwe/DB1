@@ -197,6 +197,10 @@ print('Shape of label tensor: ', labels.shape)
 
 # COMMAND ----------
 
+print(le.classes_)
+
+# COMMAND ----------
+
 #print(word_index)
 #print(tokenizer)
 
@@ -392,7 +396,7 @@ ET= datetime.now()
 
 import pickle
 #m = [word_index,bestsvc,bestrf,bestgp]
-m = [tokenizer,bestsvc,bestrf,bestgp,besten,"#1001"]
+m = [tokenizer,bestsvc,bestrf,bestgp,besten,"#1002",le.classes_]
 fh = open(b"/tmp/model.pkl","wb")
 pickle.dump(m,fh)
 
