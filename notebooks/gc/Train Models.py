@@ -396,7 +396,7 @@ ET= datetime.now()
 
 import pickle
 #m = [word_index,bestsvc,bestrf,bestgp]
-m = [tokenizer,bestsvc,bestrf,bestgp,besten,"#1002",le.classes_]
+m = [tokenizer,bestsvc,bestrf,bestgp,besten,"#1003",le.classes_]
 fh = open(b"/tmp/model.pkl","wb")
 pickle.dump(m,fh)
 
